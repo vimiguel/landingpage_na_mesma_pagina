@@ -1,0 +1,349 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Mesma Página · alinhamento de stakeholders para PMs</title>
+<meta name="description" content="Descubra quais áreas não estão na mesma página antes que isso trave o seu projeto. Um link, três perguntas por área e uma análise de alinhamento pronta.">
+<meta property="og:title" content="Mesma Página">
+<meta property="og:description" content="Descubra quem não está na mesma página antes que isso trave o seu projeto.">
+<meta property="og:url" content="https://mesmapagina.com.br">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="pt_BR">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%231f5a44'/%3E%3Crect x='8' y='9' width='16' height='3' rx='1.5' fill='%23dcede5'/%3E%3Crect x='8' y='15' width='16' height='3' rx='1.5' fill='%23dcede5'/%3E%3Crect x='8' y='21' width='10' height='3' rx='1.5' fill='%23dcede5'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  /* Mesmo padrão visual da aplicação (D10): verde-menta + verde-escuro, só tema claro. */
+  :root {
+    color-scheme: light;
+    --primaria: #dcede5;
+    --primaria-forte: #c6e1d4;
+    --primaria-texto: #1f5a44;
+    --fundo: #fafafa;
+    --superficie: #ffffff;
+    --texto: #18181b;
+    --texto-suave: #52525b;
+    --borda: #e4e4e7;
+    --sucesso: #047857; --sucesso-fundo: #ecfdf5;
+    --atencao: #92400e; --atencao-fundo: #fffbeb;
+    --risco: #9a3412;   --risco-fundo: #fff7ed;
+    --erro: #b91c1c;    --erro-fundo: #fef2f2;
+    --raio: 0.75rem;
+    --largura: 1080px;
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    margin: 0; background: var(--fundo); color: var(--texto);
+    font-family: "Geist", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+    font-size: 17px; line-height: 1.6; -webkit-font-smoothing: antialiased;
+  }
+  a { color: inherit; }
+  .container { max-width: var(--largura); margin: 0 auto; padding: 0 20px; }
+  h1, h2, h3 { line-height: 1.2; margin: 0; letter-spacing: -0.02em; }
+  h1 { font-size: clamp(2.1rem, 5vw, 3.3rem); font-weight: 700; text-wrap: balance; }
+  h2 { font-size: clamp(1.6rem, 3.4vw, 2.2rem); font-weight: 700; text-wrap: balance; }
+  h3 { font-size: 1.1rem; font-weight: 600; }
+  p { margin: 0; }
+  .suave { color: var(--texto-suave); }
+  .rotulo { font-size: 0.8rem; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--primaria-texto); }
+
+  /* Botão principal */
+  .botao {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: var(--primaria-texto); color: #fff; text-decoration: none;
+    font-weight: 600; font-size: 1rem; padding: 14px 22px; border-radius: 999px;
+    transition: transform .15s ease, background .15s ease;
+  }
+  .botao:hover { background: #174535; transform: translateY(-1px); }
+  .botao:focus-visible { outline: 3px solid var(--primaria-forte); outline-offset: 3px; }
+  .botao-leve { background: var(--primaria); color: var(--primaria-texto); padding: 10px 16px; font-size: .92rem; }
+  .botao-leve:hover { background: var(--primaria-forte); }
+
+  /* Cabeçalho */
+  header { position: sticky; top: 0; z-index: 10; background: rgba(250,250,250,.88); backdrop-filter: blur(8px); border-bottom: 1px solid var(--borda); }
+  header .container { display: flex; align-items: center; justify-content: space-between; height: 64px; }
+  .marca { display: flex; align-items: center; gap: 10px; font-weight: 700; text-decoration: none; letter-spacing: -0.01em; }
+  .marca svg { flex: none; }
+
+  /* Hero */
+  .hero { padding: 72px 0 80px; }
+  .hero .container { display: grid; grid-template-columns: 1.05fr .95fr; gap: 56px; align-items: center; }
+  .hero p.lead { font-size: 1.2rem; margin-top: 20px; max-width: 34em; }
+  .hero .acoes { margin-top: 32px; display: flex; flex-wrap: wrap; align-items: center; gap: 16px; }
+  .hero .nota { font-size: .92rem; }
+
+  /* Cartão de exemplo do relatório */
+  .exemplo { background: var(--superficie); border: 1px solid var(--borda); border-radius: 16px; padding: 22px; box-shadow: 0 1px 2px rgba(0,0,0,.04), 0 12px 32px -12px rgba(31,90,68,.18); }
+  .exemplo-topo { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; padding-bottom: 14px; border-bottom: 1px solid var(--borda); }
+  .exemplo-topo strong { font-size: 1rem; }
+  .exemplo-topo span { font-size: .8rem; color: var(--texto-suave); white-space: nowrap; }
+  .linha { display: flex; justify-content: space-between; align-items: center; gap: 12px; padding: 12px 0; border-bottom: 1px dashed var(--borda); font-size: .95rem; }
+  .linha:last-of-type { border-bottom: 0; }
+  .selo { font-size: .78rem; font-weight: 600; padding: 4px 10px; border-radius: 999px; white-space: nowrap; }
+  .s-ok { color: var(--sucesso); background: var(--sucesso-fundo); }
+  .s-atencao { color: var(--atencao); background: var(--atencao-fundo); }
+  .s-risco { color: var(--risco); background: var(--risco-fundo); }
+  .s-erro { color: var(--erro); background: var(--erro-fundo); }
+  .exemplo-conclusao { margin-top: 14px; background: var(--primaria); color: var(--primaria-texto); border-radius: var(--raio); padding: 14px 16px; font-size: .92rem; line-height: 1.5; }
+  .exemplo-legenda { margin-top: 10px; font-size: .78rem; color: var(--texto-suave); text-align: center; }
+
+  /* Seções */
+  section { padding: 80px 0; }
+  section.alt { background: var(--superficie); border-top: 1px solid var(--borda); border-bottom: 1px solid var(--borda); }
+  .cabeca { max-width: 640px; margin-bottom: 40px; }
+  .cabeca h2 { margin-top: 10px; }
+  .cabeca p { margin-top: 14px; }
+  .grade { display: grid; gap: 20px; }
+  .g3 { grid-template-columns: repeat(3, 1fr); }
+  .g2 { grid-template-columns: repeat(2, 1fr); }
+  .cartao { background: var(--superficie); border: 1px solid var(--borda); border-radius: var(--raio); padding: 24px; }
+  section.alt .cartao { background: var(--fundo); }
+  .cartao h3 { margin-bottom: 8px; }
+  .cartao p { color: var(--texto-suave); font-size: .97rem; }
+  .area { display: inline-block; font-size: .8rem; font-weight: 600; color: var(--primaria-texto); background: var(--primaria); padding: 3px 10px; border-radius: 999px; margin-bottom: 14px; }
+
+  /* Passos */
+  .passo-num { width: 36px; height: 36px; border-radius: 50%; display: grid; place-items: center; background: var(--primaria-texto); color: #fff; font-weight: 700; margin-bottom: 16px; }
+  .perguntas { margin: 14px 0 0; padding: 0; list-style: none; font-size: .9rem; color: var(--texto-suave); }
+  .perguntas li { padding: 6px 0 6px 18px; position: relative; }
+  .perguntas li::before { content: ""; position: absolute; left: 0; top: 14px; width: 8px; height: 8px; border-radius: 2px; background: var(--primaria-forte); }
+
+  /* Relatório */
+  .indicadores { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin-top: 16px; }
+  .indicadores span { font-size: .88rem; background: var(--primaria); color: var(--primaria-texto); border-radius: 8px; padding: 8px 10px; font-weight: 500; }
+
+  /* Confiança */
+  .lista-check { list-style: none; margin: 0; padding: 0; display: grid; gap: 16px; }
+  .lista-check li { display: flex; gap: 14px; align-items: flex-start; }
+  .lista-check svg { flex: none; margin-top: 3px; }
+  .lista-check strong { display: block; }
+
+  /* CTA final */
+  .final { text-align: center; }
+  .final .caixa { background: var(--primaria-texto); color: #fff; border-radius: 20px; padding: 56px 24px; }
+  .final h2 { color: #fff; }
+  .final p { color: #d4e9de; margin: 16px auto 28px; max-width: 34em; }
+  .final .botao { background: #fff; color: var(--primaria-texto); }
+  .final .botao:hover { background: var(--primaria); }
+
+  footer { padding: 32px 0 48px; font-size: .88rem; color: var(--texto-suave); }
+  footer .container { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 12px; }
+
+  @media (max-width: 860px) {
+    .hero { padding: 40px 0 56px; }
+    .hero .container { grid-template-columns: 1fr; gap: 40px; }
+    .g3, .g2 { grid-template-columns: 1fr; }
+    section { padding: 56px 0; }
+  }
+  @media (max-width: 420px) {
+    .container { padding: 0 16px; }
+    .hero p.lead { font-size: 1.08rem; }
+    .indicadores { grid-template-columns: 1fr; }
+    .botao { width: 100%; justify-content: center; }
+    header .botao { width: auto; }
+    .exemplo { padding: 18px; }
+  }
+  @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } .botao { transition: none; } }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="container">
+    <a class="marca" href="#topo" aria-label="Mesma Página, início">
+      <svg width="28" height="28" viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="8" fill="#1f5a44"/><rect x="8" y="9" width="16" height="3" rx="1.5" fill="#dcede5"/><rect x="8" y="15" width="16" height="3" rx="1.5" fill="#dcede5"/><rect x="8" y="21" width="10" height="3" rx="1.5" fill="#dcede5"/></svg>
+      Mesma Página
+    </a>
+    <a class="botao botao-leve js-lista" href="#lista">Lista de espera</a>
+  </div>
+</header>
+
+<main id="topo">
+
+  <!-- 1. Proposta -->
+  <div class="hero">
+    <div class="container">
+      <div>
+        <p class="rotulo">Para PMs e PMOs</p>
+        <h1 style="margin-top:12px">Descubra quem não está na mesma página antes que isso trave o seu projeto.</h1>
+        <p class="lead suave">Envie um link para as áreas envolvidas. Cada pessoa responde três perguntas em poucos minutos. Você recebe uma análise que mostra onde falta contexto ou prioridade, e o que fazer a respeito.</p>
+        <div class="acoes">
+          <a class="botao js-lista" href="#lista">Quero entrar na lista de espera
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+          </a>
+          <span class="nota suave">Hoje em piloto num escritório de projetos.</span>
+        </div>
+      </div>
+
+      <figure class="exemplo" aria-label="Exemplo ilustrativo de análise de alinhamento" style="margin:0">
+        <div class="exemplo-topo">
+          <strong>Novo app de vendas</strong>
+          <span>Análise de alinhamento</span>
+        </div>
+        <div class="linha"><span>Produto</span><span class="selo s-ok">Alinhado</span></div>
+        <div class="linha"><span>Financeiro</span><span class="selo s-atencao">Atenção</span></div>
+        <div class="linha"><span>BI e Dados</span><span class="selo s-risco">Em risco</span></div>
+        <div class="linha"><span>Governança</span><span class="selo s-erro">Sem contexto</span></div>
+        <div class="exemplo-conclusao"><strong>Conclusão:</strong> Governança desconhece o projeto e pode barrar a entrega. BI ainda não priorizou a ingestão dos dados do dashboard.</div>
+        <figcaption class="exemplo-legenda">Exemplo ilustrativo com projeto fictício</figcaption>
+      </figure>
+    </div>
+  </div>
+
+  <!-- 2. Problema -->
+  <section class="alt" aria-labelledby="problema">
+    <div class="container">
+      <div class="cabeca">
+        <p class="rotulo">O problema</p>
+        <h2 id="problema">O desalinhamento aparece no meio do caminho, quando já custa caro.</h2>
+        <p class="suave">Todo projeto novo envolve várias áreas. Saber quanto cada uma entende do projeto leva tempo que ninguém tem. Então o projeto anda e, um dia, você descobre que:</p>
+      </div>
+      <div class="grade g3">
+        <div class="cartao">
+          <span class="area">Governança</span>
+          <h3>Não sabia do projeto</h3>
+          <p>E agora pode barrá-lo justamente na reta final.</p>
+        </div>
+        <div class="cartao">
+          <span class="area">BI e Dados</span>
+          <h3>Precisava ter priorizado antes</h3>
+          <p>A ingestão de dados que alimenta o dashboard de métricas nunca entrou na fila.</p>
+        </div>
+        <div class="cartao">
+          <span class="area">Financeiro</span>
+          <h3>Aprovou outro escopo</h3>
+          <p>E o modelo de negócio, do jeito que está, pode não parar de pé.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3. Como funciona -->
+  <section aria-labelledby="como">
+    <div class="container">
+      <div class="cabeca">
+        <p class="rotulo">Como funciona</p>
+        <h2 id="como">Três passos, nenhuma reunião extra.</h2>
+      </div>
+      <div class="grade g3">
+        <div class="cartao">
+          <div class="passo-num">1</div>
+          <h3>Cadastre o projeto</h3>
+          <p>Título, descrição, prazo e as áreas envolvidas, com quantas pessoas você espera de cada uma. Um link é gerado na hora.</p>
+        </div>
+        <div class="cartao">
+          <div class="passo-num">2</div>
+          <h3>As áreas respondem</h3>
+          <p>Cada pessoa abre o link pelo celular ou computador, informa área e cargo e responde:</p>
+          <ul class="perguntas">
+            <li>O quanto você sabe sobre o projeto?</li>
+            <li>O quanto sua área é relevante para ele?</li>
+            <li>O quão rápido isso pode ser priorizado na sua área?</li>
+          </ul>
+        </div>
+        <div class="cartao">
+          <div class="passo-num">3</div>
+          <h3>Você recebe a análise</h3>
+          <p>Acompanhe quem já respondeu por área. Quando quiser, gere a análise: a IA cruza as respostas e aponta onde estão os riscos de alinhamento.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4. O que você recebe -->
+  <section class="alt" aria-labelledby="recebe">
+    <div class="container">
+      <div class="cabeca">
+        <p class="rotulo">O que você recebe</p>
+        <h2 id="recebe">Um relatório pronto para levar ao sponsor.</h2>
+        <p class="suave">Mesmo formato em todo projeto, legível no celular e exportável em PDF.</p>
+      </div>
+      <div class="grade g2">
+        <div class="cartao">
+          <h3>Conclusão executiva</h3>
+          <p>Em poucas linhas, o estado de alinhamento do projeto e o que mais preocupa.</p>
+        </div>
+        <div class="cartao">
+          <h3>Indicadores de alinhamento</h3>
+          <p>Cada um explicado em linguagem simples.</p>
+          <div class="indicadores">
+            <span>Contexto dos atores-chave</span>
+            <span>Prioridade dos atores-chave</span>
+            <span>Falta de contexto na entrega</span>
+            <span>Baixa prioridade na entrega</span>
+          </div>
+        </div>
+        <div class="cartao">
+          <h3>Motivos, área por área</h3>
+          <p>Por que cada ponto de atenção existe e quais áreas estão envolvidas nele.</p>
+        </div>
+        <div class="cartao">
+          <h3>Plano em passos</h3>
+          <p>Ações de comunicação e alinhamento, com as áreas que cada passo precisa envolver.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 5. Confiança -->
+  <section aria-labelledby="confianca">
+    <div class="container grade g2" style="align-items:start; gap:48px">
+      <div class="cabeca" style="margin:0">
+        <p class="rotulo">Feito por quem vive o problema</p>
+        <h2 id="confianca">Nasceu dentro de um escritório de projetos.</h2>
+        <p class="suave">A Mesma Página é usada hoje em projetos reais de um PMO. Antes de abrir para mais gente, queremos entender se ela resolve o mesmo problema para você.</p>
+      </div>
+      <ul class="lista-check">
+        <li>
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#1f5a44" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>
+          <span><strong>Respostas sem nomes na análise</strong><span class="suave">A IA recebe só área, cargo e respostas. Nunca o nome de quem respondeu.</span></span>
+        </li>
+        <li>
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#1f5a44" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>
+          <span><strong>Complementa sua ferramenta de gestão</strong><span class="suave">Não é mais um gerenciador de tarefas. Serve para alinhar pessoas, não para controlar entregas.</span></span>
+        </li>
+        <li>
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#1f5a44" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>
+          <span><strong>Cada nova rodada fica no histórico</strong><span class="suave">Gere a análise de novo depois de uma ação e compare com a anterior.</span></span>
+        </li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- 6. Chamada final -->
+  <section class="final" id="lista" aria-labelledby="cta">
+    <div class="container">
+      <div class="caixa">
+        <h2 id="cta">Quer testar nos seus projetos?</h2>
+        <p>Entre na lista de espera. Avisamos você quando abrirmos novas vagas no piloto.</p>
+        <a class="botao js-lista" href="#lista">Entrar na lista de espera</a>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <div class="container">
+    <span>© 2026 Mesma Página</span>
+    <span>mesmapagina.com.br</span>
+  </div>
+</footer>
+
+<script>
+  // ÚNICO ponto a editar: cole aqui o link público do formulário do Notion (banco "Lista de espera").
+  var LINK_LISTA = "COLE_AQUI_O_LINK_DO_FORMULARIO_NOTION";
+
+  if (LINK_LISTA.indexOf("http") === 0) {
+    document.querySelectorAll(".js-lista").forEach(function (a) {
+      a.href = LINK_LISTA;
+      a.target = "_blank";
+      a.rel = "noopener";
+    });
+  }
+</script>
+</body>
+</html>
