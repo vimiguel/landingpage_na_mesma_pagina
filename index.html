@@ -47,6 +47,13 @@
   h2 { font-size: clamp(1.6rem, 3.4vw, 2.2rem); font-weight: 700; text-wrap: balance; }
   h3 { font-size: 1.1rem; font-weight: 600; }
   p { margin: 0; }
+  /* Nome da marca dentro do título: verde da marca + faixa menta (marca-texto) */
+  .marca-destaque {
+    color: var(--primaria-texto);
+    white-space: nowrap;
+    background: linear-gradient(transparent 62%, var(--primaria-forte) 62%, var(--primaria-forte) 92%, transparent 92%);
+    padding: 0 .08em; margin: 0 -.04em;
+  }
   .suave { color: var(--texto-suave); }
   .rotulo { font-size: 0.8rem; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--primaria-texto); }
 
@@ -168,7 +175,7 @@
     <div class="container">
       <div>
         <p class="rotulo">Para PMs e PMOs</p>
-        <h1 style="margin-top:12px">Descubra quem não está na mesma página antes que isso trave o seu projeto.</h1>
+        <h1 style="margin-top:12px">Descubra quem não está na <span class="marca-destaque">mesma página</span> antes que isso trave o seu projeto.</h1>
         <p class="lead suave">Envie um link para as áreas envolvidas. Cada pessoa responde três perguntas em poucos minutos, e você recebe um relatório pronto para levar ao sponsor: quem não sabe do projeto, quem não vai conseguir priorizar e o que fazer a respeito.</p>
         <div class="acoes">
           <a class="botao js-lista" href="#lista">Quero testar no meu próximo projeto
